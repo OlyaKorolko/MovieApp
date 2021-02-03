@@ -2,9 +2,12 @@ package com.kotlinMaster.movie_app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import com.kotlinMaster.movie_app.dataholder.Movie
 
 
-class MainActivity : AppCompatActivity(), FragmentMoviesList.MoviesListClicker {
+class MainActivity : AppCompatActivity(), MoviesListClicker,
+    OnBackButtonClicked {
     private lateinit var rootFragment: FragmentMoviesList
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +27,6 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MoviesListClicker {
                 ROOT_FRAGMENT
             ) as FragmentMoviesList
         }
-
-        rootFragment.apply {
-            setClickListener(this@MainActivity)
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MoviesListClicker {
         supportFragmentManager.putFragment(outState, ROOT_FRAGMENT, rootFragment)
     }
 
-    override fun openMovieDetails() {
+    override fun openMovieDetails(movie: Movie) {
         supportFragmentManager.beginTransaction()
             .apply {
                 setCustomAnimations(
@@ -45,12 +44,20 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MoviesListClicker {
                     R.anim.slide_out
                 )
                 add(R.id.main_container, FragmentMoviesDetails())
-                addToBackStack(null)
+                addToBackStack(MOVIE_DETAILS_FRAGMENT)
                 commit()
             }
     }
 
+    override fun onClick() {
+        supportFragmentManager.popBackStack(
+            MOVIE_DETAILS_FRAGMENT,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+    }
+
     companion object {
         const val ROOT_FRAGMENT = "rootFragment"
+        const val MOVIE_DETAILS_FRAGMENT = "Movie Details"
     }
 }
