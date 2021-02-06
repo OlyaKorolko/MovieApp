@@ -1,6 +1,7 @@
 package com.kotlinMaster.movie_app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.kotlinMaster.movie_app.dataholder.Movie
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), MoviesListClicker,
     }
 
     override fun openMovieDetails(movie: Movie) {
+
         supportFragmentManager.beginTransaction()
             .apply {
                 setCustomAnimations(
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity(), MoviesListClicker,
                     R.anim.fade_in,
                     R.anim.slide_out
                 )
-                add(R.id.main_container, FragmentMoviesDetails())
+                add(R.id.main_container, FragmentMoviesDetails.newInstance(movie))
                 addToBackStack(MOVIE_DETAILS_FRAGMENT)
                 commit()
             }

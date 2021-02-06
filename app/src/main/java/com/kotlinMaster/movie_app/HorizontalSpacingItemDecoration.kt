@@ -17,9 +17,8 @@ class HorizontalSpacingItemDecoration : RecyclerView.ItemDecoration() {
 
         if (parent.layoutManager !is LinearLayoutManager) return
 
-        val spanCount = parent.adapter?.itemCount ?: 1
         if ((parent.layoutManager as LinearLayoutManager).orientation == RecyclerView.HORIZONTAL) {
-            view.layoutParams.width = parent.measuredWidth / spanCount
+            view.layoutParams.width = parent.measuredWidth / 4
         }
     }
 }

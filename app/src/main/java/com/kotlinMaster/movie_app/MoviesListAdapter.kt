@@ -11,16 +11,16 @@ import com.kotlinMaster.movie_app.dataholder.Movie
 import com.bumptech.glide.Glide
 
 class AdapterMoviesList(private val clickListener: MoviesListClicker) :
-    RecyclerView.Adapter<MovieViewHolder>() {
+    RecyclerView.Adapter<MovieCardViewHolder>() {
     private var movies = listOf<Movie>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardViewHolder {
+        return MovieCardViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_card, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieCardViewHolder, position: Int) {
         holder.onBind(movies[position])
         holder.itemView.setOnClickListener {
             clickListener.openMovieDetails(movies[position])
@@ -35,13 +35,13 @@ class AdapterMoviesList(private val clickListener: MoviesListClicker) :
     }
 }
 
-class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MovieCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val picture = itemView.findViewById<ImageView>(R.id.heroes)
     private val ageBound = itemView.findViewById<ImageView>(R.id.age)
     private val likeButton = itemView.findViewById<ImageView>(R.id.heart)
-    private val genres = itemView.findViewById<TextView>(R.id.genres_2)
+    private val genres = itemView.findViewById<TextView>(R.id.genres)
     private var listOfStars = putStarsIntoList()
-    private val reviews = itemView.findViewById<TextView>(R.id.reviews_word_)
+    private val reviews = itemView.findViewById<TextView>(R.id.reviews_word)
     private val movieName = itemView.findViewById<TextView>(R.id.movie_name)
     private val duration = itemView.findViewById<TextView>(R.id.mins)
 
@@ -69,7 +69,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBind(movie: Movie) {
         Glide.with(context)
-            .load(movie.picture)
+            .load(movie.cardPicture)
             .into(picture)
 
         Glide.with(context)
