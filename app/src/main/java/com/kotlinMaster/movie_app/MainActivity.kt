@@ -1,13 +1,14 @@
 package com.kotlinMaster.movie_app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.kotlinMaster.movie_app.data.MovieListParser
 import com.kotlinMaster.movie_app.dataholder.Movie
 
 
-class MainActivity : AppCompatActivity(), MoviesListClicker,
+class MainActivity : AppCompatActivity(),
+    MoviesListClicker,
     OnBackButtonClicked {
     private lateinit var rootFragment: FragmentMoviesList
 

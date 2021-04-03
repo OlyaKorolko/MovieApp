@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kotlinMaster.movie_app.dataholder.Actor
 
 class ActorsAdapter : RecyclerView.Adapter<ActorViewHolder>() {
@@ -34,7 +35,13 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val name = itemView.findViewById<TextView>(R.id.actor_name)
 
     fun onBind(actor: Actor) {
-        picture.setImageResource(actor.picture)
+        //picture.load(actor.imageUrl)
+        Glide.with(context)
+            .load(actor.imageUrl)
+            .into(picture)
+
         name.text = actor.name
     }
 }
+private val RecyclerView.ViewHolder.context
+    get() = this.itemView.context

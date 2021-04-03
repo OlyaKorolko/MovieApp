@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlinMaster.movie_app.dataholder.Movie
-import com.kotlinMaster.movie_app.dataholder.MovieDataSource
 
 class MovieDetailsAdapter(private val clickListener: OnBackButtonClicked) :
     RecyclerView.Adapter<MovieViewHolder>() {
@@ -26,16 +25,18 @@ class MovieDetailsAdapter(private val clickListener: OnBackButtonClicked) :
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.onBind(movie!!)
 
-        val childLayoutManager =
-            LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
+        if (movie!!.actorsList.isNotEmpty()) {
+            val childLayoutManager =
+                LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
 
-        holder.recyclerView.apply {
-            layoutManager = childLayoutManager
-            adapter = ActorsAdapter()
-            addItemDecoration(HorizontalSpacingItemDecoration())
+            holder.recyclerView.apply {
+                layoutManager = childLayoutManager
+                adapter = ActorsAdapter()
+                addItemDecoration(HorizontalSpacingItemDecoration())
+            }
+
+            (holder.recyclerView.adapter as ActorsAdapter).bindActors(movie!!.actorsList)
         }
-
-        (holder.recyclerView.adapter as ActorsAdapter).bindActors(movie!!.actorsList)
 
         holder.itemView.findViewById<TextView>(R.id.back_text).setOnClickListener {
             clickListener.onClick()
@@ -93,7 +94,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(age)
 
         movieName.text = movie.movieName
-        genres.text = movie.genres
+        genres.text = movie.genres.joinToString { it.name }
         setStars(movie.numberOfStars)
         reviews.text = "${movie.reviews} REVIEWS"
         storyline.text = movie.storyline

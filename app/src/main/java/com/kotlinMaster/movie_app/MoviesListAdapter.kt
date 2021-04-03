@@ -12,11 +12,12 @@ import com.bumptech.glide.Glide
 
 class AdapterMoviesList(private val clickListener: MoviesListClicker) :
     RecyclerView.Adapter<MovieCardViewHolder>() {
-    private var movies = listOf<Movie>()
+    var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCardViewHolder {
         return MovieCardViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_card, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.view_holder_movie_card, parent, false)
         )
     }
 
@@ -82,7 +83,7 @@ class MovieCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             likeButton.setImageResource(R.drawable.gray_like)
         }
 
-        genres.text = movie.genres
+        genres.text = movie.genres.joinToString { it.name }
         setStars(movie.numberOfStars)
         reviews.text = "${movie.reviews} REVIEWS"
         movieName.text = movie.movieName
